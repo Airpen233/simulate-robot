@@ -117,8 +117,55 @@ clear 场景没有障碍物，min_clearance 无定义（空值）。原逻辑把
 
 ### 两个已知陷阱
 
-1. **`collision_samples=0` 是假阴性。** 接触点通道漏报率实测 15/15。必须同时看几何间隙。
+1. **`collision_samples=0` 是假阴性。** 接触点通道漏报率实测 32/32。必须同时看几何间隙。
 2. **仿真完全确定性。** 同场景跑两次产生逐字节相同的日志。所以「多跑几次」不会带来新信息，要扩大**场景数量**。
+
+---
+
+## 4.1 日志目录：按人隔离
+
+从 2026-11-13 起，实验日志按运行者分目录：
+
+```
+webots/logs/random_avoid/
+├── *.log              ← 历史（2026-11 之前），保持在原位不动
+├── airpen/            ← Airpen 的新实验
+│   └── <RunName>_*.log
+└── <你的名字>/         ← 你的新实验
+    └── <RunName>_*.log
+```
+
+**为什么要这样**：`trials.csv` 是从日志派生出来的。两人把日志混在同一目录，会互相覆盖。
+
+### 怎么用
+
+```powershell
+# 方式一：显式指定
+.\tools\run_avoid.ps1 -WorldFile ... -RunName my_test -Runner 你的名字
+
+# 方式二：设环境变量（推荐，设一次就行）
+$env:RUNNER_NAME = "你的名字"
+```
+
+**不设的话默认是 `airpen`**，你的实验会混进我的目录里。第一次用请务必设一次。
+
+### 历史文件为什么不动
+
+`logs/random_avoid/*.log` 是已归档的证据，被 commit 引用过。移动它们会让项目历史里每一个路径都失效。
+
+三个分析工具（`measure_clearance.py` / `build_trials.py` / `summarize_runs.py`）会**同时扫描历史目录和所有分人子目录**，所以旧数据照样能读。
+
+### 跑之前先看有没有人在跑
+
+**Webots 同一时间只能跑一个实例。** 两个人同时启动，后来者会在 1.6 秒内退出且**不产生任何日志**——看起来像「跑完了但没结果」。
+
+脚本已经会检测并抛错：
+
+```
+Webots is already running (...). Close the existing Webots window before starting this experiment.
+```
+
+看到这个提示，等对方跑完再试。
 
 ---
 

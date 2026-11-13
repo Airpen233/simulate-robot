@@ -10,10 +10,15 @@ from __future__ import annotations
 import csv
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN_DIR = ROOT / "logs" / "random_avoid"
+
+sys.path.insert(0, str(ROOT / "tools"))
+from measure_clearance import all_runs, find_run  # noqa: E402
+
 TARGET = (1.0, 0.0)
 TRUE_TOLERANCE_M = 0.03
 
@@ -69,16 +74,22 @@ def parse_supervisor(path: Path) -> dict[str, object]:
 
 def main() -> int:
     rows = []
-    for controller_path in sorted(RUN_DIR.glob("*_controller.log")):
-        name = controller_path.name[: -len("_controller.log")]
+    for name in all_runs():
         if not (name.startswith("fixed_") or name.startswith("random_seed_")):
             continue
-        supervisor_path = RUN_DIR / f"{name}_supervisor.log"
-        scene_path = RUN_DIR / f"{name}_world.json"
+        controller_path = find_run(name, "_controller.log")
+        supervisor_path = find_run(name, "_supervisor.log")
+        scene_path = find_run(name, "_world.json")
+        if controller_path is None:
+            continue
         row = {"run": name}
         row.update(parse_controller(controller_path))
-        row.update(parse_supervisor(supervisor_path) if supervisor_path.exists() else parse_supervisor(Path("/nonexistent")))
-        if scene_path.exists():
+        row.update(
+            parse_supervisor(supervisor_path)
+            if supervisor_path is not None and supervisor_path.exists()
+            else parse_supervisor(Path("/nonexistent"))
+        )
+        if scene_path is not None and scene_path.exists():
             scene = json.loads(scene_path.read_text(encoding="utf-8"))
             row["scenario"] = scene.get("scenario", "")
             row["seed"] = scene.get("seed", "")

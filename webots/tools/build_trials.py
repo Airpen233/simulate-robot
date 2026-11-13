@@ -39,7 +39,9 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 from measure_clearance import (  # noqa: E402
     RUN_DIR,
+    all_runs,
     clearance_at,
+    find_run,
     load_obstacles,
     parse_poses,
     parse_true_end,
@@ -156,13 +158,13 @@ def collect() -> list[dict[str, object]]:
     cfg = config_hash()
     rows: list[dict[str, object]] = []
 
-    runs = sorted(p.name[: -len("_controller.log")] for p in RUN_DIR.glob("*_controller.log"))
+    runs = all_runs()
 
     for run in runs:
         base, run_index = split_run(run)
         scene = normalize_scene(base)
-        controller_log = RUN_DIR / f"{run}_controller.log"
-        supervisor_log = RUN_DIR / f"{run}_supervisor.log"
+        controller_path = find_run(run, "_controller.log")
+        supervisor_log = find_run(run, "_supervisor.log")
 
         row: dict[str, object] = {
             "run": run,
@@ -181,14 +183,14 @@ def collect() -> list[dict[str, object]]:
             "pose_samples": 0,
         }
 
-        if controller_log.exists():
+        if controller_path is not None and controller_path.exists():
             match = CONTROLLER_RESULT_RE.search(
-                controller_log.read_text(encoding="utf-8", errors="replace")
+                controller_path.read_text(encoding="utf-8", errors="replace")
             )
             if match:
                 row["controller_result"] = match.group("result")
 
-        if not supervisor_log.exists():
+        if supervisor_log is None or not supervisor_log.exists():
             row["verdict"] = "NO_SUPERVISOR_LOG"
             rows.append(row)
             continue
