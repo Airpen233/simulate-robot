@@ -212,12 +212,29 @@ def main() -> int:
             desired = heading_to_target(pose.x, pose.y, TARGET_X, TARGET_Y)
             error = angle_error(desired, pose.heading_rad)
 
+            # Tell the state machine whether the robot is actually travelling.
+            # Odometry alone cannot distinguish "driving" from "wheels spinning
+            # against a box", and that ambiguity is what produced the
+            # random_seed_4 false arrival 45 cm from the target.
+            commanded_forward = last_action in (
+                AvoidAction.DRIVE,
+                AvoidAction.FORWARD_SLOW,
+                AvoidAction.BACKWARD_SLOW,
+            )
+
             if now > TIMEOUT_S and not machine.terminal:
                 decision = machine.force_terminal(
                     AvoidState.TIMEOUT, f"wall clock {now:.2f} > {TIMEOUT_S:.2f}"
                 )
             else:
-                decision = machine.tick(now, snap, distance, error)
+                decision = machine.tick(
+                    now,
+                    snap,
+                    distance,
+                    error,
+                    travelled_m=odometry.distance_m,
+                    commanded_forward=commanded_forward,
+                )
 
             if decision.state is not last_state or decision.action is not last_action:
                 log_decision(decision, now, snap, pose, distance, error)

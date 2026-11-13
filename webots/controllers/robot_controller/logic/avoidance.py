@@ -114,6 +114,12 @@ class AvoidConfig:
     max_avoid_attempts: int = 6
     max_backup_attempts: int = 1
     max_same_direction_attempts: int = 2
+    # Stall detection. A robot commanded to drive whose encoders barely move is
+    # pushing against something: the wheels spin, odometry accumulates, and the
+    # controller believes it is travelling. That is how random_seed_4 reported
+    # "reached" while sitting 45 cm from the target.
+    stall_window_s: float = 0.5
+    stall_min_progress_m: float = 0.001
 
 
 @dataclass(frozen=True)
@@ -226,6 +232,46 @@ class AvoidStateMachine:
         self.turn_count = 0
         self.backup_count = 0
         self.recover_count = 0
+        # Rolling (time, distance) samples used by the stall detector.
+        self.stall_samples: list[tuple[float, float]] = []
+        self.stall_events = 0
+
+    def _update_stall(self, now: float, travelled_m: float, commanded: bool) -> bool:
+        """Return True when the robot is pushing without moving.
+
+        ``travelled_m`` is the odometry distance accumulated by the caller. Only
+        forward/backward commands count: while spinning in place the wheels
+        legitimately turn without translating, so a stall check there would
+        fire on every turn.
+        """
+
+        cfg = self.config
+        if not commanded:
+            self.stall_samples.clear()
+            return False
+
+        self.stall_samples.append((now, travelled_m))
+        # Keep one sample older than the window so the measured span can
+        # actually reach stall_window_s. Trimming to `>= horizon` alone keeps
+        # the window slightly narrower than requested and the span test below
+        # then never passes (the first version deadlocked exactly that way).
+        horizon = now - cfg.stall_window_s
+        self.stall_samples = [s for s in self.stall_samples if s[0] >= horizon]
+        if len(self.stall_samples) < 2:
+            return False
+
+        progress = self.stall_samples[-1][1] - self.stall_samples[0][1]
+        span = self.stall_samples[-1][0] - self.stall_samples[0][0]
+        if span < cfg.stall_window_s:
+            return False
+        if progress < cfg.stall_min_progress_m:
+            self.stall_events += 1
+            self.stall_samples.clear()
+            return True
+        return False
+        self.stall_events += 1
+        self.stall_samples.clear()
+        return True
 
     def _decision(
         self,
@@ -287,11 +333,26 @@ class AvoidStateMachine:
         snapshot: SensorSnapshot,
         distance: float,
         heading_error: float,
+        travelled_m: float | None = None,
+        commanded_forward: bool = False,
     ) -> AvoidDecision:
         cfg = self.config
 
         if self.terminal:
             return self._decision(AvoidAction.STOP, self.state_reason, snapshot)
+
+        # Stall guard. Checked before the REACHED test on purpose: a robot
+        # whose wheels are spinning against an obstacle can see its odometry
+        # climb past the target tolerance, which is a false arrival, not a
+        # success. random_seed_4 did exactly this (estimated 0.982 m, truth
+        # 0.55 m).
+        if travelled_m is not None and self._update_stall(now, travelled_m, commanded_forward):
+            return self._finish(
+                AvoidState.STUCK,
+                f"no progress: travelled < {cfg.stall_min_progress_m * 1000:.0f} mm "
+                f"in {cfg.stall_window_s:.1f} s while commanded to drive",
+                snapshot,
+            )
 
         if self.state is AvoidState.NAVIGATE:
             if distance <= cfg.target_tolerance_m:
