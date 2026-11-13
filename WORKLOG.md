@@ -2,17 +2,45 @@
 
 > 由 `webots/tools/worklog.py` 从 git 历史自动生成，**无需手工维护**。
 > 每次提交后重跑一次即可：`cd webots && python tools/worklog.py`
-> 统计窗口：全部历史｜生成时间：2026-11-13 09:28 UTC
+> 统计窗口：全部历史｜生成时间：2026-11-13 09:30 UTC
 
 ## 谁做了什么
 
 | 人 | 提交数 | 涉及文件 | 改动行数 | 活跃天数 |
 | --- | --- | --- | --- | --- |
-| `airpen` | 14 | 286 | 3775 | 1 |
+| `airpen` | 15 | 290 | 4415 | 1 |
 
 ## 按天
 
-### 2026-11-13　（airpen，14 个提交）
+### 2026-11-13　（airpen，15 个提交）
+
+- **feat: 新增 WORKLOG.md —— 从 git 历史自动生成「做了什么」 (#6)** `0614357`　（4 文件 / +640 行）
+  - 触及：`(root)`、`.github/workflows`、`webots/tools`
+
+    ## 背景
+    PROGRESS.md 只回答「结果如何」（跑了几次、哪些通过）。对方想看
+    「他这两天干了什么、为什么这么改」得逐个点开提交，拼不起来。
+
+    用户选择：纯自动，不手写。
+
+    ## 实现
+    tools/worklog.py 从 git 历史生成 WORKLOG.md：
+    - 按天分组，每天列出提交标题 + 触及模块 + 正文（「为什么」）
+    - 作者身份归一：同一人多个邮箱合并（Airpen 有两个邮箱）
+    - 自动过滤 Merge pull request 噪音
+    - chore/ci/style 折叠成一行，不淹没真正的工作
+
+    ## 两个统计口径的坑（已修）
+    1. 首次提交把 136 个日志一次性导入，显示为 17085 行插入
+       -> 证据文件（.log/.wbt/_world.json）单独计数，不混进代码行
+    2. 首次导入本身不是「一天写了 6500 行」
+       -> 基线提交标为「基线导入，不计入工作量」
+
+    修正后：27166 行 -> 3775 行，符合实际。
+
+    ## 验证
+    - 连续生成两次内容一致（除时间戳），幂等
+    - CI 已加入 worklog.py --print 检查
 
 - **feat: 台账记录运行者与时间，并生成 PROGRESS.md (#5)** `208af4b`　（6 文件 / +354 行 + 证据 138 行）
   - 触及：`webots/tools`、`(root)`、`.github/workflows`
@@ -276,10 +304,10 @@
 
 | 模块 | 涉及提交数 |
 | --- | --- |
-| `(root)` | 7 |
-| `webots/tools` | 6 |
+| `(root)` | 8 |
+| `webots/tools` | 7 |
 | `webots/logs` | 6 |
-| `.github/workflows` | 4 |
+| `.github/workflows` | 5 |
 | `docs/TEAM_SETUP.md` | 2 |
 | `webots/controllers` | 2 |
 | `.github/ISSUE_TEMPLATE` | 1 |
