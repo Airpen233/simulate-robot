@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\A.me\Simulate robot\webots\controllers\probe\probe.py", line 12, in <module>
+    from controller import Robot  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Webots\lib\controller\python\controller\__init__.py", line 15, in <module>
+    from controller.field import Field                             # noqa
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Webots\lib\controller\python\controller\field.py", line 16, in <module>
+    from .wb import wb
+  File "C:\Program Files\Webots\lib\controller\python\controller\wb.py", line 26, in <module>
+    wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path))
+                                              ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'WEBOTS_HOME'

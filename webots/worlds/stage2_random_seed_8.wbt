@@ -1,0 +1,163 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
+WorldInfo {
+  info [
+    "Simulate Robot random-obstacle stage: scenario=random seed=8 target=(1.0,0.0)."
+  ]
+  title "Simulate Robot - random obstacles random"
+  basicTimeStep 32
+}
+Viewpoint {
+  orientation -0.2324493692067285 -0.14943881545798998 0.9610594836896971 3.9676615263416637
+  position 0.2768847838918187 0.2403033535301425 0.26892434176287777
+  follow "e-puck"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2.2 2.2
+}
+DEF OBSTACLE1 Solid {
+  translation -0.741 0.578 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.80 0.20 0.20
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.160 0.160 0.160
+      }
+    }
+  ]
+  name "obstacle 1"
+  boundingObject Box {
+    size 0.160 0.160 0.160
+  }
+}
+DEF OBSTACLE2 Solid {
+  translation 0.612 -0.728 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.90 0.50 0.10
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.143 0.143 0.143
+      }
+    }
+  ]
+  name "obstacle 2"
+  boundingObject Box {
+    size 0.143 0.143 0.143
+  }
+}
+DEF OBSTACLE3 Solid {
+  translation -0.498 -0.777 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.15 0.45 0.80
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.123 0.123 0.123
+      }
+    }
+  ]
+  name "obstacle 3"
+  boundingObject Box {
+    size 0.123 0.123 0.123
+  }
+}
+DEF OBSTACLE4 Solid {
+  translation 0.031 -0.533 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.55 0.20 0.75
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.174 0.174 0.174
+      }
+    }
+  ]
+  name "obstacle 4"
+  boundingObject Box {
+    size 0.174 0.174 0.174
+  }
+}
+DEF OBSTACLE5 Solid {
+  translation 0.563 -0.020 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.65 0.45
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.147 0.147 0.147
+      }
+    }
+  ]
+  name "obstacle 5"
+  boundingObject Box {
+    size 0.147 0.147 0.147
+  }
+}
+DEF OBSTACLE6 Solid {
+  translation 0.379 -0.661 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.85 0.75 0.15
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.122 0.122 0.122
+      }
+    }
+  ]
+  name "obstacle 6"
+  boundingObject Box {
+    size 0.122 0.122 0.122
+  }
+}
+DEF E_PUCK E-puck {
+  controller "avoid_controller"
+}
+Robot {
+  controller "avoid_supervisor"
+  supervisor TRUE
+}
+Pose {
+  translation 1.0 0.02 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.1 0.8 0.1
+        roughness 0.5
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.01
+        radius 0.07
+      }
+    }
+  ]
+}

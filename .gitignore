@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Webots
+*.wbproj
+*.wbproj.*
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+*.tmp
+*.swp
+
+# 说明：webots/logs/ 下的实验日志**故意入库**。
+# 它是验收证据（Supervisor 真值、控制器轨迹），体积小（约 1.2 MB 纯文本），
+# 且项目铁律要求「失败样本必须保留」「引用数据前核对 error=」。

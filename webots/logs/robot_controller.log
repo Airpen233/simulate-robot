@@ -1,0 +1,251 @@
+PYTHON: 3.12.10 C:\Users\Airpen\AppData\Local\Programs\Python\Python312\python.exe
+DEVICES:
+  0: left wheel motor
+  1: left wheel sensor
+  2: right wheel motor
+  3: right wheel sensor
+  4: ps0
+  5: ps1
+  6: ps2
+  7: ps3
+  8: ps4
+  9: ps5
+  10: ps6
+  11: ps7
+  12: ls0
+  13: ls1
+  14: ls2
+  15: ls3
+  16: ls4
+  17: ls5
+  18: ls6
+  19: ls7
+  20: camera
+  21: led0
+  22: led1
+  23: led2
+  24: led3
+  25: led4
+  26: led5
+  27: led6
+  28: led7
+  29: led8
+  30: led9
+  31: accelerometer
+  32: gyro
+  33: receiver
+  34: emitter
+  35: speaker
+TARGET: (0.0, 0.8) -> forward 0.80 m
+STEP t=0.48s ps0=64.5 ps7=63.4 traveled=0.037m
+STEP t=0.96s ps0=67.1 ps7=66.3 traveled=0.076m
+STEP t=1.44s ps0=68.2 ps7=66.6 traveled=0.115m
+STEP t=1.92s ps0=71.3 ps7=65.4 traveled=0.155m
+STEP t=2.40s ps0=60.3 ps7=66.0 traveled=0.194m
+STEP t=2.88s ps0=62.5 ps7=67.8 traveled=0.233m
+STEP t=3.36s ps0=71.0 ps7=67.0 traveled=0.273m
+STEP t=3.84s ps0=72.1 ps7=71.8 traveled=0.312m
+RESULT: blocked front=134.7 traveled=0.338m
+PYTHON: 3.12.10 C:\Users\Airpen\AppData\Local\Programs\Python\Python312\python.exe
+DEVICES:
+  0: left wheel motor
+  1: left wheel sensor
+  2: right wheel motor
+  3: right wheel sensor
+  4: ps0
+  5: ps1
+  6: ps2
+  7: ps3
+  8: ps4
+  9: ps5
+  10: ps6
+  11: ps7
+  12: ls0
+  13: ls1
+  14: ls2
+  15: ls3
+  16: ls4
+  17: ls5
+  18: ls6
+  19: ls7
+  20: camera
+  21: led0
+  22: led1
+  23: led2
+  24: led3
+  25: led4
+  26: led5
+  27: led6
+  28: led7
+  29: led8
+  30: led9
+  31: accelerometer
+  32: gyro
+  33: receiver
+  34: emitter
+  35: speaker
+TARGET: (0.0, 0.8) -> forward 0.80 m
+STEP t=0.48s ps0=64.5 ps7=63.4 traveled=0.037m
+STEP t=0.96s ps0=67.1 ps7=66.3 traveled=0.076m
+STEP t=1.44s ps0=68.2 ps7=66.6 traveled=0.115m
+STEP t=1.92s ps0=71.3 ps7=65.4 traveled=0.155m
+STEP t=2.40s ps0=60.3 ps7=66.0 traveled=0.194m
+STEP t=2.88s ps0=62.5 ps7=67.8 traveled=0.233m
+STEP t=3.36s ps0=71.0 ps7=67.0 traveled=0.273m
+STEP t=3.84s ps0=72.1 ps7=71.8 traveled=0.312m
+STEP t=4.32s ps0=66.3 ps7=65.1 traveled=0.351m
+STEP t=4.80s ps0=73.3 ps7=66.6 traveled=0.390m
+STEP t=5.28s ps0=64.8 ps7=65.5 traveled=0.430m
+STEP t=5.76s ps0=70.2 ps7=67.1 traveled=0.469m
+STEP t=6.24s ps0=69.3 ps7=68.8 traveled=0.508m
+STEP t=6.72s ps0=61.7 ps7=56.3 traveled=0.548m
+STEP t=7.20s ps0=68.7 ps7=70.8 traveled=0.587m
+STEP t=7.68s ps0=66.0 ps7=71.3 traveled=0.626m
+STEP t=8.16s ps0=66.9 ps7=65.4 traveled=0.666m
+STEP t=8.64s ps0=69.9 ps7=69.4 traveled=0.705m
+STEP t=9.12s ps0=68.4 ps7=66.3 traveled=0.744m
+RESULT: reached traveled=0.770m
+PYTHON: 3.12.10 C:\Users\Airpen\AppData\Local\Programs\Python\Python312\python.exe
+DEVICES:
+  0: left wheel motor
+  1: left wheel sensor
+  2: right wheel motor
+  3: right wheel sensor
+  4: ps0
+  5: ps1
+  6: ps2
+  7: ps3
+  8: ps4
+  9: ps5
+  10: ps6
+  11: ps7
+  12: ls0
+  13: ls1
+  14: ls2
+  15: ls3
+  16: ls4
+  17: ls5
+  18: ls6
+  19: ls7
+  20: camera
+  21: led0
+  22: led1
+  23: led2
+  24: led3
+  25: led4
+  26: led5
+  27: led6
+  28: led7
+  29: led8
+  30: led9
+  31: accelerometer
+  32: gyro
+  33: receiver
+  34: emitter
+  35: speaker
+TARGET: (0.0, 0.8) -> forward 0.80 m
+STEP t=0.48s ps0=64.5 ps7=63.4 traveled=0.037m
+STEP t=0.96s ps0=67.1 ps7=66.3 traveled=0.076m
+STEP t=1.44s ps0=68.2 ps7=66.6 traveled=0.115m
+STEP t=1.92s ps0=71.3 ps7=65.4 traveled=0.155m
+STEP t=2.40s ps0=60.3 ps7=66.0 traveled=0.194m
+STEP t=2.88s ps0=62.5 ps7=67.8 traveled=0.233m
+STEP t=3.36s ps0=71.0 ps7=67.0 traveled=0.273m
+STEP t=3.84s ps0=72.1 ps7=71.8 traveled=0.312m
+RESULT: blocked front=134.7 traveled=0.338m
+PYTHON: 3.12.10 C:\Users\Airpen\AppData\Local\Programs\Python\Python312\python.exe
+DEVICES:
+  0: left wheel motor
+  1: left wheel sensor
+  2: right wheel motor
+  3: right wheel sensor
+  4: ps0
+  5: ps1
+  6: ps2
+  7: ps3
+  8: ps4
+  9: ps5
+  10: ps6
+  11: ps7
+  12: ls0
+  13: ls1
+  14: ls2
+  15: ls3
+  16: ls4
+  17: ls5
+  18: ls6
+  19: ls7
+  20: camera
+  21: led0
+  22: led1
+  23: led2
+  24: led3
+  25: led4
+  26: led5
+  27: led6
+  28: led7
+  29: led8
+  30: led9
+  31: accelerometer
+  32: gyro
+  33: receiver
+  34: emitter
+  35: speaker
+TARGET: (0.0, 0.8) -> forward 0.80 m
+STEP t=0.48s ps0=64.5 ps7=63.4 traveled=0.037m
+STEP t=0.96s ps0=67.1 ps7=66.3 traveled=0.076m
+STEP t=1.44s ps0=68.2 ps7=66.6 traveled=0.115m
+STEP t=1.92s ps0=71.3 ps7=65.4 traveled=0.155m
+STEP t=2.40s ps0=60.3 ps7=66.0 traveled=0.194m
+STEP t=2.88s ps0=62.5 ps7=67.8 traveled=0.233m
+STEP t=3.36s ps0=71.0 ps7=67.0 traveled=0.273m
+STEP t=3.84s ps0=72.1 ps7=71.8 traveled=0.312m
+RESULT: blocked front=134.7 traveled=0.338m
+PYTHON: 3.12.10 C:\Users\Airpen\AppData\Local\Programs\Python\Python312\python.exe
+DEVICES:
+  0: left wheel motor
+  1: left wheel sensor
+  2: right wheel motor
+  3: right wheel sensor
+  4: ps0
+  5: ps1
+  6: ps2
+  7: ps3
+  8: ps4
+  9: ps5
+  10: ps6
+  11: ps7
+  12: ls0
+  13: ls1
+  14: ls2
+  15: ls3
+  16: ls4
+  17: ls5
+  18: ls6
+  19: ls7
+  20: camera
+  21: led0
+  22: led1
+  23: led2
+  24: led3
+  25: led4
+  26: led5
+  27: led6
+  28: led7
+  29: led8
+  30: led9
+  31: accelerometer
+  32: gyro
+  33: receiver
+  34: emitter
+  35: speaker
+TARGET: (0.0, 0.8) -> forward 0.80 m
+STEP t=0.48s ps0=64.5 ps7=63.4 traveled=0.037m
+STEP t=0.96s ps0=67.1 ps7=66.3 traveled=0.076m
+STEP t=1.44s ps0=68.2 ps7=66.6 traveled=0.115m
+STEP t=1.92s ps0=71.3 ps7=65.4 traveled=0.155m
+STEP t=2.40s ps0=60.3 ps7=66.0 traveled=0.194m
+STEP t=2.88s ps0=62.5 ps7=67.8 traveled=0.233m
+STEP t=3.36s ps0=71.0 ps7=67.0 traveled=0.273m
+STEP t=3.84s ps0=72.1 ps7=71.8 traveled=0.312m
+RESULT: blocked front=134.7 traveled=0.338m

@@ -1,0 +1,16 @@
+{
+  "scenario": "clear",
+  "seed": 7,
+  "world": "D:\\A.me\\Simulate robot\\webots\\worlds\\scenarios\\clear.wbt",
+  "arena_size_m": 2.2,
+  "start": [
+    0.0,
+    0.0
+  ],
+  "target": [
+    1.0,
+    0.0
+  ],
+  "path_found": true,
+  "obstacles": []
+}

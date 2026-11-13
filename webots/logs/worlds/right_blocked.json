@@ -1,0 +1,23 @@
+{
+  "scenario": "right_blocked",
+  "seed": 7,
+  "world": "D:\\A.me\\Simulate robot\\webots\\worlds\\scenarios\\right_blocked.wbt",
+  "arena_size_m": 2.2,
+  "start": [
+    0.0,
+    0.0
+  ],
+  "target": [
+    1.0,
+    0.0
+  ],
+  "path_found": true,
+  "obstacles": [
+    {
+      "name": "OBSTACLE1",
+      "x": 0.4,
+      "y": -0.1,
+      "size": 0.16
+    }
+  ]
+}

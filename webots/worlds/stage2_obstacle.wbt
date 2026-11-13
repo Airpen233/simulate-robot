@@ -1,0 +1,79 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
+WorldInfo {
+  info [
+    "Simulate Robot minimal demo: target straight ahead, no obstacle."
+  ]
+  title "Simulate Robot - clear path"
+}
+Viewpoint {
+  orientation -0.3854164644683679 -0.3301351457096051 0.8616640496643696 4.498536585278277
+  position 0.5731625732688543 1.5930376050150956 1.738794478539393
+  follow "e-puck"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 4 4
+}
+DEF OBSTACLE Solid {
+  translation 0.45 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 0.5
+        metalness 0
+      }
+      geometry Box {
+        size 0.12 0.12 0.12
+      }
+    }
+  ]
+  name "obstacle"
+  boundingObject Box {
+    size 0.12 0.12 0.12
+  }
+}
+DEF E_PUCK E-puck {
+  hidden position_0_0 154.77685770543894
+  hidden position_0_1 164.78545462903884
+  hidden linearVelocity_0 0.04456890737568562 -0.06631513039371921 -1.7330927559056414e-08
+  hidden angularVelocity_0 -0.0055075225657844375 -0.003701480596926469 6.346432531881208e-09
+  hidden rotation_1 0 1 0 3.980410333128867
+  hidden linearVelocity_1 0.044550399967999914 -0.06628759277306429 -3.8825004103650295e-11
+  hidden angularVelocity_1 3.314379664315722 2.2275199486707304 9.031285198285288e-08
+  hidden rotation_2 0 1 0 1.4226366423695902
+  hidden linearVelocity_2 0.0445504000506244 -0.06628759289760168 2.523243358461416e-11
+  hidden angularVelocity_2 3.314379602330353 2.227520040910976 -8.325222413813105e-08
+  translation 0.885176910358843 -0.3570980758734909 -6.396080235838118e-05
+  rotation 0.0001786499528140777 0.0003353165177872129 -0.999999927823511 0.9790571672146993
+  controller "motion_controller"
+}
+Robot {
+  controller "session_supervisor"
+  supervisor TRUE
+}
+Pose {
+  translation 0.8 0.02 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.1 0.8 0.1
+        roughness 0.5
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.01
+        radius 0.06
+      }
+    }
+  ]
+}

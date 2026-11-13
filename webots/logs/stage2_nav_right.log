@@ -1,0 +1,34 @@
+MODE: navigate python=3.12.10
+GEOMETRY: r=0.02 L=0.058
+PARAMS: target=(0.8,-0.8) angle=90.0 distance=0.5
+NAV t=0.48s pose=(0.006,-0.005,-0.699) dist=1.124 desired=-0.786 error=-0.087 front=64.5
+NAV t=0.96s pose=(0.035,-0.030,-0.704) dist=1.086 desired=-0.789 error=-0.085 front=67.1
+NAV t=1.44s pose=(0.061,-0.054,-0.767) dist=1.050 desired=-0.790 error=-0.023 front=68.2
+NAV t=1.92s pose=(0.089,-0.081,-0.767) dist=1.011 desired=-0.791 error=-0.024 front=71.3
+NAV t=2.40s pose=(0.116,-0.108,-0.767) dist=0.973 desired=-0.792 error=-0.025 front=66.0
+NAV t=2.88s pose=(0.144,-0.134,-0.767) dist=0.935 desired=-0.793 error=-0.026 front=67.8
+NAV t=3.36s pose=(0.172,-0.161,-0.769) dist=0.896 desired=-0.794 error=-0.025 front=71.0
+NAV t=3.84s pose=(0.199,-0.187,-0.767) dist=0.858 desired=-0.795 error=-0.029 front=72.1
+NAV t=4.32s pose=(0.227,-0.214,-0.767) dist=0.820 desired=-0.796 error=-0.030 front=66.3
+NAV t=4.80s pose=(0.254,-0.241,-0.769) dist=0.781 desired=-0.798 error=-0.029 front=73.3
+NAV t=5.28s pose=(0.282,-0.267,-0.767) dist=0.743 desired=-0.800 error=-0.033 front=65.5
+NAV t=5.76s pose=(0.310,-0.294,-0.767) dist=0.705 desired=-0.801 error=-0.035 front=70.2
+NAV t=6.24s pose=(0.337,-0.320,-0.769) dist=0.666 desired=-0.803 error=-0.034 front=69.3
+NAV t=6.72s pose=(0.365,-0.347,-0.767) dist=0.628 desired=-0.805 error=-0.039 front=61.7
+NAV t=7.20s pose=(0.392,-0.374,-0.767) dist=0.590 desired=-0.808 error=-0.041 front=70.8
+NAV t=7.68s pose=(0.420,-0.400,-0.769) dist=0.551 desired=-0.811 error=-0.042 front=71.3
+NAV t=8.16s pose=(0.448,-0.427,-0.767) dist=0.513 desired=-0.814 error=-0.047 front=66.9
+NAV t=8.64s pose=(0.475,-0.453,-0.767) dist=0.475 desired=-0.818 error=-0.051 front=69.9
+NAV t=9.12s pose=(0.503,-0.480,-0.767) dist=0.437 desired=-0.822 error=-0.056 front=68.4
+NAV t=9.60s pose=(0.531,-0.507,-0.767) dist=0.398 desired=-0.828 error=-0.061 front=72.6
+NAV t=10.08s pose=(0.558,-0.533,-0.767) dist=0.360 desired=-0.834 error=-0.068 front=70.9
+NAV t=10.56s pose=(0.586,-0.560,-0.767) dist=0.322 desired=-0.842 error=-0.075 front=71.7
+NAV t=11.04s pose=(0.613,-0.587,-0.767) dist=0.284 desired=-0.852 error=-0.086 front=63.3
+NAV t=11.52s pose=(0.638,-0.613,-0.829) dist=0.248 desired=-0.857 error=-0.028 front=70.3
+NAV t=12.00s pose=(0.664,-0.641,-0.832) dist=0.209 desired=-0.862 error=-0.031 front=71.9
+NAV t=12.48s pose=(0.690,-0.669,-0.832) dist=0.171 desired=-0.869 error=-0.038 front=68.1
+NAV t=12.96s pose=(0.715,-0.698,-0.829) dist=0.133 desired=-0.880 error=-0.051 front=73.9
+NAV t=13.44s pose=(0.741,-0.726,-0.832) dist=0.095 desired=-0.900 error=-0.069 front=61.2
+NAV t=13.92s pose=(0.765,-0.753,-0.894) dist=0.059 desired=-0.926 error=-0.031 front=67.7
+NAV t=14.40s pose=(0.789,-0.783,-0.894) dist=0.021 desired=-0.984 error=-0.090 front=69.7
+RESULT: reached target=(0.8,-0.8) pose=(0.790,-0.785,-0.959) distance=0.018
