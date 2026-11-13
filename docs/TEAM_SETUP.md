@@ -11,17 +11,39 @@
 | 项 | 状态 | 说明 |
 |---|---|---|
 | 仓库公开 | ✅ | `github.com/Airpen233/simulate-robot` 已从私有改为公开 |
-| 分支保护 | ✅ | 强制 PR、需 1 人批准、禁 force-push、禁删 main、**管理员也受约束** |
+| 分支保护 | ✅ | 强制 PR、需 1 人批准、禁 force-push、禁删 main |
+| **必需 CI 检查** | ✅ | 4 个 check 不过就合不了；strict 模式（须先 rebase 到最新） |
 | 仓库结构合并 | ✅ | `src/` + `tests/` 已并入，主仓库可独立跑 47 个测试 |
 | 路径可移植 | ✅ | `run_avoid.ps1` 支持 `-WebotsExe` / `WEBOTS_HOME` / PATH 自动探测 |
 | 协作模板 | ✅ | `CONTRIBUTING.md`、`CODEOWNERS`、PR 模板、3 类 Issue 模板 |
-| **CI 流水线** | ❌ **阻塞** | 见下方「待你授权」 |
+| CI 流水线 | ✅ | PR #2 已合并，4 个作业首次运行全过（5–10 秒） |
 
 **分支保护已实测有效**：直接 push main 被拒
 
 ```
 ! [remote rejected] main -> main (protected branch hook declined)
 ```
+
+**CI 实测结果**（PR #2 首次运行）：
+
+```
+analysis tools self-test   pass   6s
+unit tests (3.10)          pass  10s
+unit tests (3.11)          pass   6s
+unit tests (3.12)          pass   5s
+```
+
+### 当前保护规则全貌
+
+| 规则 | 值 |
+|---|---|
+| 直推 main | ❌ 被拒（已实测） |
+| force-push | ❌ 禁止 |
+| 删除 main | ❌ 禁止 |
+| PR 批准数 | 1 人 |
+| 必需检查 | `unit tests (3.10/3.11/3.12)`、`analysis tools self-test` |
+| strict 模式 | 开启（分支落后必须先 rebase） |
+| 管理员绕过 | ⚠️ **当前允许**，伙伴到位后应关闭 |
 
 ### Notion
 
@@ -35,41 +57,21 @@
 
 ---
 
-## 待你授权（3 件，都要你本人操作）
+## 待你提供（2 件）
 
-### ① CI 需要 `workflow` 权限
-
-**现象**
-
-```
-! [remote rejected] (refusing to allow an OAuth App to create or update
-   workflow `.github/workflows/tests.yml` without `workflow` scope)
-```
-
-**当前 token 权限**：`gist`、`read:org`、`repo` —— 缺 `workflow`
-
-**操作步骤**
-
-```bash
-# 在终端里跑（会打开浏览器）
-gh auth refresh -s workflow
-```
-
-浏览器弹出后勾选确认即可。完成后告诉我，我把 CI 推送上去。
-
-> CI 文件已备好，暂存在 `/tmp/tests.yml.pending`。内容：在 Python 3.10/3.11/3.12 上跑 47 个测试 + 工具自检。
-
-### ② 伙伴的 Notion 邮箱
+### ① 伙伴的 Notion 邮箱
 
 需要用来邀请进 Teamspace。**没有它，团队主页只有你一个人能看到。**
 
-### ③ 伙伴的 GitHub 用户名
+### ② 伙伴的 GitHub 用户名
 
 需要用来：
 
 - 加为仓库协作者
-- 替换 `CODEOWNERS` 里的占位符
+- 替换 `CODEOWNERS` 里的 `@Airpen233` 之外需要的占位
 - 让他能提 PR
+
+> 注：仓库已公开，任何人都能 fork 并提 PR。但**直接在此仓库建分支**需要协作者权限。
 
 ---
 
