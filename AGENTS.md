@@ -1,8 +1,14 @@
-# Simulate Robot · 项目记忆与 agent 接手说明
+# Simulate Robot · 项目记忆（本地工作草稿）
 
-> 本文件是本项目**唯一**的项目级记忆/交接源。agent 进入本目录后先读这里，再按需读引用的报告与日志。
-> 规则层不在这里重复：先读 `D:\A.me\AGENTS.md`（它指向的性质见「0.2 规则链的真实状态」）。
-> 最后核对：2026-11-09（本轮实跑验证，见 0.4）。
+> **⚠️ 本文件已降级为本地工作草稿，不再承载项目事实的权威副本。**
+> 权威副本：Notion `PS_Knowledge`《技术·Simulate Robot·Webots 避障工程事实》
+> https://app.notion.com/p/4173f761570d81c580a8ebd8b592b914
+> 迁入日期 2026-11-13，内容一致。本文件保留以便离线查看与快速 grep，**冲突时以 Notion 为准**。
+>
+> **规则层不在这里，也不在本地任何 AGENTS.md**：系统规则唯一源是 Notion《🏠 工作台》（v1.5 / 2026-11-04）。原「0.2 规则链的真实状态」一节所述指向已失效，保留仅为历史。
+> 项目卡：https://app.notion.com/p/4173f761570d81f5b170cbf87cceca1a
+> 代码仓库：https://github.com/Airpen233/simulate-robot（私有，首次提交 0864dcc）
+> 最后核对：2026-11-09（实跑验证，见 0.4）。
 
 ---
 
@@ -28,7 +34,7 @@ Webots R2025a + e-puck 差速小车的**两阶段仿真工程**，本质是一�
 
 ```
 D:\A.me\Simulate robot\
-├── AGENTS.md                       ← 本文件（项目记忆唯一可写源）
+├── AGENTS.md                       ← 本文件（本地草稿；权威副本在 Notion 知识库）
 ├── STAGE1_WEBOTS_REPORT.md         ← 阶段一工程报告（验收清单/环境/校准）
 ├── STAGE2_WEBOTS_REPORT.md         ← 阶段二工程报告（含技术债、未完成项）
 ├── STAGE2_RANDOM_AVOID_REPORT.md   ← 随机多障碍改进报告（17 次实验完整数据）
@@ -62,7 +68,7 @@ D:\A.me\Simulate robot\
 | WSL | Ubuntu-24.04（`wsl -d Ubuntu-24.04 -e bash -lc ...`）；输出有 NUL/乱码需 `2>&1 \| tr -d '\000'` |
 | 测试 | WSL `.venv/bin/python -m unittest discover -s tests` → **Ran 43 tests, OK**（2026-11-09） |
 | 生成器自检 | `python tools/generate_random_world.py --self-test` → `SELF_TEST_OK` |
-| Git | 两边都**没有提交**（WSL 仓 `main` 无 commit，全部 untracked；Windows 侧无 .git）。章程要求未获许可不擅自提交 |
+| Git | **已建立**：`Airpen233/simulate-robot`（私有），Windows 侧首次提交 `0864dcc`（2026-11-13）。仓库级代理需设 `http.proxy=127.0.0.1:7897`（全局配置指向失效端口 31180/31181）。WSL 纯逻辑仓 `/home/airpen/projects/simulate-robot` 仍零 commit |
 
 ## 0.5 关键常量（改动前先看这里）
 
