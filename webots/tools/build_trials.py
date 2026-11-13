@@ -240,11 +240,18 @@ def stability(rows: list[dict[str, object]], key: str) -> list[dict[str, object]
     for scene, members in sorted(groups.items()):
         members.sort(key=lambda r: int(r["run_index"]))
         n = len(members)
-        passes = sum(
-            1
-            for m in members
-            if m["true_success_3cm"] == "yes" and m["clearance_ok"] == "yes"
-        )
+
+        # A scene with no obstacles has no clearance to violate, so the
+        # clearance criterion is not applicable rather than failed. Treating
+        # the empty value as "not ok" would make every obstacle-free scene
+        # permanently un-passable (the `clear` scene hit exactly this).
+        def _passes(row: dict[str, object]) -> bool:
+            error_ok = row["true_success_3cm"] == "yes"
+            clearance_na = row["min_clearance_m"] == ""
+            clearance_ok = row["clearance_ok"] == "yes"
+            return bool(error_ok and (clearance_ok or clearance_na))
+
+        passes = sum(1 for m in members if _passes(m))
         results = {str(m["controller_result"]) for m in members}
         errors = [
             float(m["true_error_m"]) for m in members if m["true_error_m"] != ""
@@ -267,6 +274,7 @@ def stability(rows: list[dict[str, object]], key: str) -> list[dict[str, object]
                 "n": n,
                 "pass": passes,
                 "verdict": verdict,
+                "clearance_applicable": "yes" if clearances else "no",
                 "result_variety": len(results),
                 "err_min": f"{min(errors):.4f}" if errors else "",
                 "err_max": f"{max(errors):.4f}" if errors else "",
