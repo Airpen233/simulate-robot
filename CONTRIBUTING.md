@@ -183,15 +183,31 @@ Webots is already running (...). Close the existing Webots window before startin
 cd webots
 python tools/build_trials.py      # 从日志重建 trials.csv
 python tools/progress.py          # 从 trials.csv 生成 PROGRESS.md
+python tools/worklog.py           # 从 git 历史生成 WORKLOG.md
 ```
 
-然后把这三个一起提交：
+然后把这几个一起提交：
 
 ```
 webots/logs/random_avoid/<你>/    ← 新日志
 webots/logs/trials.csv            ← 台账（含 runner 和 recorded_at）
-PROGRESS.md                       ← 进度页
+PROGRESS.md                       ← 进度页（数据）
+WORKLOG.md                        ← 工作日志（做了什么）
 ```
+
+### 两份文件的分工
+
+| 文件 | 回答什么 | 数据来源 |
+|---|---|---|
+| `PROGRESS.md` | **结果如何**：谁跑了多少、哪些场景通过、哪些贴障 | `trials.csv` |
+| `WORKLOG.md` | **做了什么**：每项改动的目的、方案、取舍 | git 提交历史 |
+
+`WORKLOG.md` 完全自动生成，**不需要手写**。它把提交信息里的正文部分原样保留——所以写好 commit message 的「为什么」小节，对方就能看懂你的思路。
+
+两个统计口径要注意：
+
+- **证据行数单独计**（`.log` / `.wbt` / `_world.json`），不混进代码行数
+- **首次导入的基线提交不计入工作量**，只标为「基线导入」
 
 **为什么不让 CI 自动生成**：`main` 要求走 PR，机器人 push 会被拒。而且 CI 能改证据文件本身就是个隐患。所以是「本机生成 + 随 PR 提交」，PR 里能看见进度怎么变的。
 
