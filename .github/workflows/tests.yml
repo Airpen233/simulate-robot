@@ -54,3 +54,11 @@ jobs:
 
       - name: Trial ledger builds
         run: python webots/tools/build_trials.py --print
+
+      - name: Progress page renders
+        # PROGRESS.md is regenerated before committing (see CONTRIBUTING.md).
+        # CI only checks the generator still works — it does NOT write back,
+        # because `main` requires a pull request and a bot push would be
+        # rejected. Keeping it read-only also means CI can never silently
+        # rewrite evidence.
+        run: python webots/tools/progress.py --print > /dev/null

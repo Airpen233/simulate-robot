@@ -157,7 +157,7 @@ $env:RUNNER_NAME = "你的名字"
 
 ### 跑之前先看有没有人在跑
 
-**Webots 同一时间只能跑一个实例。** 两个人同时启动，后来者会在 1.6 秒内退出且**不产生任何日志**——看起来像「跑完了但没结果」。
+**如果你和别人共用一台机器**：Webots 同一时间只能跑一个实例。两个人同时启动，后来者会在 1.6 秒内退出且**不产生任何日志**——看起来像「跑完了但没结果」。
 
 脚本已经会检测并抛错：
 
@@ -165,7 +165,44 @@ $env:RUNNER_NAME = "你的名字"
 Webots is already running (...). Close the existing Webots window before starting this experiment.
 ```
 
-看到这个提示，等对方跑完再试。
+**如果你在另一台机器上跑**（常见情况）：没有这个问题，但要注意下面这节。
+
+---
+
+## 4.2 怎么知道对方做到哪了
+
+两个人在**各自电脑**上跑，仓库是唯一的共享点。所以进度必须落在文件里，不能只在聊天里说。
+
+### `PROGRESS.md`（仓库根目录）
+
+一屏看完：谁跑了多少、场景验收情况、哪些运行贴了障碍物。
+
+**每次跑完实验、提交前，重新生成一次：**
+
+```bash
+cd webots
+python tools/build_trials.py      # 从日志重建 trials.csv
+python tools/progress.py          # 从 trials.csv 生成 PROGRESS.md
+```
+
+然后把这三个一起提交：
+
+```
+webots/logs/random_avoid/<你>/    ← 新日志
+webots/logs/trials.csv            ← 台账（含 runner 和 recorded_at）
+PROGRESS.md                       ← 进度页
+```
+
+**为什么不让 CI 自动生成**：`main` 要求走 PR，机器人 push 会被拒。而且 CI 能改证据文件本身就是个隐患。所以是「本机生成 + 随 PR 提交」，PR 里能看见进度怎么变的。
+
+### `trials.csv` 的两列不要手工改
+
+| 列 | 内容 | 来源 |
+|---|---|---|
+| `runner` | 谁跑的 | 从日志所在目录推导（`logs/random_avoid/<runner>/`） |
+| `recorded_at` | 什么时候跑的 | 日志文件的 mtime |
+
+日志里没有绝对时钟，只有仿真相对时间，所以 mtime 是唯一可用的墙钟时间。
 
 ---
 

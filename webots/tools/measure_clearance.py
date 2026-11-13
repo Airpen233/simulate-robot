@@ -145,6 +145,22 @@ def find_run(run: str, suffix: str) -> Path | None:
     return history if history.exists() else None
 
 
+def runner_of(path: Path) -> str:
+    """Who produced this log.
+
+    A per-runner layout is ``logs/random_avoid/<runner>/<file>``; files sitting
+    directly in ``logs/random_avoid`` predate that split and belong to the
+    repo owner. Deriving the runner from the path (rather than storing it in
+    the log) means old evidence needs no rewriting.
+    """
+
+    try:
+        relative = path.relative_to(RUN_DIR)
+    except ValueError:
+        return "unknown"
+    return relative.parts[0] if len(relative.parts) > 1 else "airpen"
+
+
 def all_runs() -> list[str]:
     """Every run name found in history and per-runner directories, deduplicated."""
 

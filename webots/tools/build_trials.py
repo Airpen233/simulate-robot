@@ -45,10 +45,25 @@ from measure_clearance import (  # noqa: E402
     load_obstacles,
     parse_poses,
     parse_true_end,
+    runner_of,
     scene_name,
 )
 
 LEDGER = ROOT / "logs" / "trials.csv"
+
+
+def _mtime(path: Path | None) -> str:
+    """Wall-clock time of the log file, or empty when unavailable."""
+
+    if path is None:
+        return ""
+    try:
+        stamp = path.stat().st_mtime
+    except OSError:
+        return ""
+    from datetime import datetime, timezone
+
+    return datetime.fromtimestamp(stamp, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 REPEAT_RE = re.compile(r"^(?P<base>.+?)_r(?P<index>\d+)$")
 CONTROLLER_RESULT_RE = re.compile(r"RESULT:\s*(?P<result>\w+)")
@@ -56,6 +71,8 @@ CONTROLLER_RESULT_RE = re.compile(r"RESULT:\s*(?P<result>\w+)")
 COLUMNS = [
     "trial_id",
     "run",
+    "runner",
+    "recorded_at",
     "scene",
     "run_index",
     "category",
@@ -168,6 +185,14 @@ def collect() -> list[dict[str, object]]:
 
         row: dict[str, object] = {
             "run": run,
+            "runner": runner_of(supervisor_log)
+            if supervisor_log is not None and supervisor_log.exists()
+            else runner_of(controller_path)
+            if controller_path is not None
+            else "unknown",
+            # Logs carry no absolute clock. mtime is the only wall-clock signal
+            # available, so it is what a teammate can sort by.
+            "recorded_at": _mtime(supervisor_log or controller_path),
             "scene": scene,
             "run_index": run_index,
             "category": category_of(base),
