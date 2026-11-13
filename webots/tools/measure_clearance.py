@@ -99,6 +99,66 @@ ROOT = Path(__file__).resolve().parents[1]
 RUN_DIR = ROOT / "logs" / "random_avoid"
 WORLD_DIR = ROOT / "logs" / "worlds"
 
+# Archive layout changed on 2026-11-13 so two people can run experiments
+# without overwriting each other's evidence:
+#
+#   logs/random_avoid/*.log          <- history, kept exactly where it was
+#   logs/random_avoid/<runner>/*.log <- new runs, one directory per person
+#
+# Keeping the old files in place was deliberate: they are archived evidence,
+# already referenced by commits, and moving them would change every path in
+# the project's history. The readers below therefore look in both places rather
+# than one.
+
+
+def run_dirs(include_history: bool = True) -> list[Path]:
+    """Directories that may contain archived runs.
+
+    History first so old runs keep their original (unprefixed) names stable;
+    per-runner directories follow in sorted order.
+    """
+
+    dirs: list[Path] = []
+    if include_history and RUN_DIR.is_dir():
+        dirs.append(RUN_DIR)
+    if RUN_DIR.is_dir():
+        for child in sorted(RUN_DIR.iterdir()):
+            if child.is_dir() and child.name != "__pycache__":
+                dirs.append(child)
+    return dirs
+
+
+def find_run(run: str, suffix: str) -> Path | None:
+    """Locate ``<run><suffix>`` in the per-runner dirs first, then history.
+
+    Per-runner directories win: a rerun by the same person should shadow a
+    stale copy rather than be ignored.
+    """
+
+    if RUN_DIR.is_dir():
+        for child in sorted(RUN_DIR.iterdir()):
+            if child.is_dir() and child.name != "__pycache__":
+                candidate = child / f"{run}{suffix}"
+                if candidate.exists():
+                    return candidate
+    history = RUN_DIR / f"{run}{suffix}"
+    return history if history.exists() else None
+
+
+def all_runs() -> list[str]:
+    """Every run name found in history and per-runner directories, deduplicated."""
+
+    seen: dict[str, Path] = {}
+    for directory in run_dirs(include_history=False):
+        for path in sorted(directory.glob("*_supervisor.log")):
+            name = path.name[: -len("_supervisor.log")]
+            seen.setdefault(name, path)
+    if RUN_DIR.is_dir():
+        for path in sorted(RUN_DIR.glob("*_supervisor.log")):
+            name = path.name[: -len("_supervisor.log")]
+            seen.setdefault(name, path)
+    return sorted(seen)
+
 # Authoritative value from Webots R2025a E-puck.proto (boundingObject Cylinder).
 ROBOT_RADIUS_M = 0.037
 
@@ -192,10 +252,10 @@ def clearance_at(
 def measure(run: str, robot_radius: float = ROBOT_RADIUS_M) -> dict[str, object]:
     """Compute clearance statistics for one archived run."""
 
-    supervisor = RUN_DIR / f"{run}_supervisor.log"
+    supervisor = find_run(run, "_supervisor.log")
     result: dict[str, object] = {"run": run, "status": "ok"}
 
-    if not supervisor.exists():
+    if supervisor is None or not supervisor.exists():
         result["status"] = "no_supervisor_log"
         return result
 
@@ -277,9 +337,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    runs = args.run or sorted(
-        p.name[: -len("_supervisor.log")] for p in RUN_DIR.glob("*_supervisor.log")
-    )
+    runs = args.run or all_runs()
 
     results = [measure(run, args.robot_radius) for run in runs]
 

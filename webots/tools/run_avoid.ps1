@@ -8,11 +8,24 @@ param(
     [double]$Timeout = 24.0,
     [int]$WaitSeconds = 32,
     [string]$WebotsExe = "",
+    [string]$Runner = "",
     [switch]$Gui,
     [switch]$ValidateOnly
 )
 
 $ErrorActionPreference = "Continue"
+
+# Who is running this experiment. Archive logs go to logs/random_avoid/<Runner>/
+# so two people never overwrite each other's evidence. Resolution order:
+#   1. -Runner passed explicitly
+#   2. $env:RUNNER_NAME
+#   3. "airpen" (the repo owner)
+if (-not $Runner) { $Runner = $env:RUNNER_NAME }
+if (-not $Runner) { $Runner = "airpen" }
+# Keep the value path-safe: it becomes a directory name.
+if ($Runner -notmatch '^[A-Za-z0-9._-]+$') {
+    throw "Runner name '$Runner' is not allowed. Use letters, digits, dot, underscore or hyphen."
+}
 $root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 
 # Webots executable. Resolved in this order so the repo works on any machine:
@@ -151,7 +164,7 @@ if ($Gui) {
     }
 }
 
-$outDir = Join-Path $root "logs\random_avoid"
+$outDir = Join-Path $root (Join-Path "logs\random_avoid" $Runner)
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 $controllerLog = Join-Path $root "logs\avoid_controller.log"
 $supervisorLog = Join-Path $root "logs\avoid_supervisor.log"
