@@ -7,13 +7,38 @@ param(
     [double]$TargetY = 0.0,
     [double]$Timeout = 24.0,
     [int]$WaitSeconds = 32,
+    [string]$WebotsExe = "",
     [switch]$Gui,
     [switch]$ValidateOnly
 )
 
 $ErrorActionPreference = "Continue"
 $root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$exe = "C:\Program Files\Webots\msys64\mingw64\bin\webots.exe"
+
+# Webots executable. Resolved in this order so the repo works on any machine:
+#   1. -WebotsExe passed explicitly
+#   2. $env:WEBOTS_HOME (set by the Webots installer)
+#   3. the usual Windows install location
+#   4. webots on PATH
+# A teammate cloning this repo should not have to edit a hardcoded path.
+function Resolve-WebotsExe {
+    param([string]$Explicit)
+    if ($Explicit -and (Test-Path -LiteralPath $Explicit -PathType Leaf)) { return (Resolve-Path -LiteralPath $Explicit).Path }
+    if ($env:WEBOTS_HOME) {
+        foreach ($rel in @("msys64\mingw64\bin\webots.exe", "webots.exe")) {
+            $candidate = Join-Path $env:WEBOTS_HOME $rel
+            if (Test-Path -LiteralPath $candidate -PathType Leaf) { return (Resolve-Path -LiteralPath $candidate).Path }
+        }
+    }
+    foreach ($candidate in @("C:\Program Files\Webots\msys64\mingw64\bin\webots.exe")) {
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) { return $candidate }
+    }
+    $onPath = Get-Command webots -ErrorAction SilentlyContinue
+    if ($onPath) { return $onPath.Source }
+    throw "Webots not found. Pass -WebotsExe, set WEBOTS_HOME, or install Webots to the default location."
+}
+
+$exe = Resolve-WebotsExe -Explicit $WebotsExe
 $world = if ([System.IO.Path]::IsPathRooted($WorldFile)) { $WorldFile } else { Join-Path $root ("worlds\" + $WorldFile) }
 if (-not (Test-Path -LiteralPath $world -PathType Leaf)) { throw "world not found: $world" }
 $world = (Resolve-Path -LiteralPath $world).Path

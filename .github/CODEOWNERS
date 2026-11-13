@@ -1,0 +1,20 @@
+# 代码归属
+#
+# GitHub 会用这个文件自动请求对应负责人评审 PR。
+# 规则：最后匹配的规则生效，所以更具体的放后面。
+
+# 默认：任何改动都要 Airpen 看一眼
+*                                   @Airpen233
+
+# 核心逻辑：状态机与运动学，改动风险最高
+/src/avoidance.py                   @Airpen233
+/src/kinematics.py                  @Airpen233
+/webots/controllers/robot_controller/logic/  @Airpen233
+
+# 实验纪律：调整验收标准属于重大改动
+/EXPERIMENT_WORKFLOW.md             @Airpen233
+/webots/tools/measure_clearance.py  @Airpen233
+/webots/tools/build_trials.py       @Airpen233
+
+# CI 与协作配置
+/.github/                           @Airpen233

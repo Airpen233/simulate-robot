@@ -1,0 +1,56 @@
+name: tests
+
+# The logic layer (avoidance / kinematics / robot) is pure Python with no
+# Webots dependency, so the unit tests run fine on a plain runner. Anything
+# that needs the simulator is a separate, manual step — CI must never claim a
+# simulation passed when it did not run one.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    name: unit tests (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run unit tests
+        # The tests import from `src.*`; the repo keeps that package at the
+        # root of the WSL checkout, so run from there.
+        run: |
+          python -m unittest discover -s tests -v
+
+  tools-selftest:
+    name: analysis tools self-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: World generator self-test
+        run: python webots/tools/generate_random_world.py --self-test
+
+      - name: Clearance tool runs on archived logs
+        # Exercises measure_clearance.py against the committed evidence. It must
+        # stay importable and able to parse the archived Supervisor logs.
+        run: python webots/tools/measure_clearance.py --run fixed_front
+
+      - name: Trial ledger builds
+        run: python webots/tools/build_trials.py --print
