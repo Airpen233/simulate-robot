@@ -62,3 +62,7 @@ jobs:
         # rejected. Keeping it read-only also means CI can never silently
         # rewrite evidence.
         run: python webots/tools/progress.py --print > /dev/null
+
+      - name: Worklog renders
+        # Same contract as PROGRESS.md: generate locally, commit with the PR.
+        run: python webots/tools/worklog.py --print > /dev/null
