@@ -1,0 +1,35 @@
+{
+  "scenario": "both_blocked",
+  "seed": 7,
+  "world": "D:\\A.me\\Simulate robot\\webots\\worlds\\stage2_scenario_both_blocked.wbt",
+  "arena_size_m": 2.2,
+  "start": [
+    0.0,
+    0.0
+  ],
+  "target": [
+    1.0,
+    0.0
+  ],
+  "path_found": true,
+  "obstacles": [
+    {
+      "name": "OBSTACLE1",
+      "x": 0.42,
+      "y": 0.0,
+      "size": 0.16
+    },
+    {
+      "name": "OBSTACLE2",
+      "x": 0.3,
+      "y": 0.24,
+      "size": 0.14
+    },
+    {
+      "name": "OBSTACLE3",
+      "x": 0.3,
+      "y": -0.24,
+      "size": 0.14
+    }
+  ]
+}

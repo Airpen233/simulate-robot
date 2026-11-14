@@ -29,7 +29,15 @@ from logic.kinematics import Pose, advance_pose, angle_error, heading_to_target,
 
 TIME_STEP_MS = 32
 WHEEL_RADIUS_M = 0.0200
-WHEEL_BASE_M = 0.058
+# Effective wheelbase, measured rather than nominal. A motion probe drove six
+# magnitudes (+45/+90/+180/+270/-90/-180 deg) and compared the Supervisor's true
+# heading against the commanded angle: the robot consistently over-rotated by a
+# factor of 1.02353 (residual 0.65 deg mean, 1.10 deg max). Since omega =
+# dv * r / L, that factor means the real L is 0.058 / 1.02353 = 0.05667.
+#
+# The nominal e-puck value is 0.052 and was already known to be off; 0.058 was an
+# earlier hand calibration. Neither matched, which is why the probe exists.
+WHEEL_BASE_M = 0.05667
 MAX_WHEEL_SPEED = 4.0
 SLOW_WHEEL_SPEED = float(os.environ.get("SIMULATE_SLOW_SPEED", "3.0"))
 BACKUP_WHEEL_SPEED = -3.0

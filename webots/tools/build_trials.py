@@ -183,13 +183,34 @@ def git_show(commit: str, path: str) -> str:
     return result.stdout if result.returncode == 0 else ""
 
 
+# ``<scene>_<tag>`` where the tag is a short configuration marker such as wb2.
+TAG_RE = re.compile(r"^(?P<scene>.+?)_(?P<tag>wb\d+)$")
+
+
 def split_run(name: str) -> tuple[str, int]:
-    """``fixed_front_r2`` -> (``fixed_front``, 2); ``fixed_front`` -> (..., 1)."""
+    """``fixed_front_r2`` -> (``fixed_front``, 2); ``fixed_front`` -> (..., 1).
+
+    Run names may carry a configuration tag before the repetition suffix
+    (``front_wb2_r2`` = scene ``front``, tag ``wb2``, repetition 2). The tag exists
+    so a new code configuration can be measured without overwriting the archived
+    evidence of the previous one; the parser must strip it, otherwise the tag
+    becomes part of the scene name and the scene silently drops out of the
+    standard set (that happened: 34 new runs produced zero counted scenes).
+    """
 
     match = REPEAT_RE.match(name)
     if match:
-        return match.group("base"), int(match.group("index"))
-    return name, 1
+        base = match.group("base")
+        index = int(match.group("index"))
+    else:
+        base = name
+        index = 1
+
+    tag = TAG_RE.match(base)
+    if tag:
+        base = tag.group("scene")
+
+    return base, index
 
 
 # The original fixed runs are named ``fixed_<scene>`` while the repeat runner
@@ -388,13 +409,37 @@ def stability(
     ``standard_only`` defaults to True so the pass rate is computed over the 17
     acceptance scenes and nothing else. Pass False to inspect the whole ledger,
     including superseded and one-off runs.
+
+    Rows from different code configurations are never averaged together. Mixing
+    them silently invents instability: after the wheelbase changed, `no_path` had
+    one result under the new value and two under the old, and a naive grouping
+    reported it as UNSTABLE — a property of the mixing, not of the robot.
+
+    Each scene therefore keeps only the rows from its NEWEST configuration, and
+    older configurations are reported separately by `superseded_scenes`. Picking
+    by run count instead would have kept the two old runs and silently reported
+    pre-fix numbers as current, which is worse than the original bug.
     """
+
+    # Newest configuration per scene, judged by the latest timestamp in the group.
+    newest: dict[str, tuple[str, str]] = {}
+    for row in rows:
+        scene = str(row[key])
+        config = str(row.get("config_at_run") or "unknown")
+        stamp = str(row.get("recorded_at") or "")
+        current = newest.get(scene)
+        if current is None or stamp > current[1]:
+            newest[scene] = (config, stamp)
 
     groups: dict[str, list[dict[str, object]]] = defaultdict(list)
     for row in rows:
         if standard_only and key == "scene" and not is_standard(str(row[key])):
             continue
-        groups[str(row[key])].append(row)
+        scene = str(row[key])
+        config = str(row.get("config_at_run") or "unknown")
+        if key == "scene" and newest.get(scene, (None, ""))[0] != config:
+            continue  # superseded configuration
+        groups[scene].append(row)
 
     out = []
     for scene, members in sorted(groups.items()):

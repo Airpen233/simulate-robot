@@ -1,0 +1,17 @@
+SESSION_START t=0.00
+POSE idx=0 token=spin_45:begin t=0.416 x=0.000000 y=0.000000 yaw=0.000000
+POSE idx=1 token=spin_45:end t=1.344 x=0.000011 y=0.000001 yaw=0.767517
+POSE idx=2 token=spin_90:begin t=1.760 x=0.000011 y=0.000001 yaw=0.767332
+POSE idx=3 token=spin_90:end t=3.328 x=0.000011 y=-0.000019 yaw=2.346493
+POSE idx=4 token=spin_180:begin t=3.712 x=0.000011 y=-0.000019 yaw=2.346333
+POSE idx=5 token=spin_180:end t=6.368 x=-0.000048 y=-0.000040 yaw=-0.778843
+POSE idx=6 token=spin_270:begin t=6.784 x=-0.000048 y=-0.000040 yaw=-0.779045
+POSE idx=7 token=spin_270:end t=10.528 x=-0.000090 y=0.000016 yaw=-2.367817
+POSE idx=8 token=spin_n90:begin t=10.944 x=-0.000090 y=0.000016 yaw=-2.368019
+POSE idx=9 token=spin_n90:end t=12.480 x=-0.000063 y=0.000025 yaw=2.335388
+POSE idx=10 token=spin_n180:begin t=12.928 x=-0.000063 y=0.000025 yaw=2.335593
+POSE idx=11 token=spin_n180:end t=15.552 x=-0.000055 y=0.000103 yaw=-0.823310
+POSE idx=12 token=straight_050:begin t=16.000 x=-0.000055 y=0.000103 yaw=-0.823105
+POSE idx=13 token=straight_050:end t=24.704 x=0.339378 y=-0.365937 yaw=-0.823095
+POSE idx=14 token=straight_020:begin t=25.120 x=0.339378 y=-0.365937 yaw=-0.823095
+POSE idx=15 token=straight_020:end t=28.864 x=0.475152 y=-0.512353 yaw=-0.823095
