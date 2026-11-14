@@ -230,6 +230,38 @@ def category_of(base: str) -> str:
     return "other"
 
 
+# The 17 scenes that actually carry the acceptance result. Everything else in
+# the ledger is history, one-off debugging, or a superseded parameter set, and
+# must not enter the pass rate. Without this list a naive count over the ledger
+# yields 35 scenes and a different percentage — which is exactly what happened
+# when the roadmap was first written.
+STANDARD_SCENES = frozenset(
+    [
+        "clear",
+        "front",
+        "left_blocked",
+        "right_blocked",
+        "both_blocked",
+        "no_path",
+        "fixed_seed7",
+        *[f"random_seed_{i}" for i in range(1, 11)],
+    ]
+)
+
+
+def is_standard(scene: str) -> bool:
+    """True only for scenes that may be counted in the acceptance rate.
+
+    Exclusions and why:
+      test_*     早期 B/C 代参数（move_duration_s=0.5 等），与当前参数不可比
+      beginner_* 历史调试运行，其中 2 个 Supervisor 被截断
+      stage2_* / takeover_check / stallfix_* / sanity_check
+                 一次性验证，不是固定的测试集成员
+    """
+
+    return scene in STANDARD_SCENES
+
+
 def commit_at(when: str) -> str:
     """Commit that was HEAD closest to ``when`` (an ISO-8601 UTC stamp).
 
@@ -348,11 +380,20 @@ def collect() -> list[dict[str, object]]:
     return rows
 
 
-def stability(rows: list[dict[str, object]], key: str) -> list[dict[str, object]]:
-    """Per-scene stability across repetitions (``EXPERIMENT_WORKFLOW.md`` §1)."""
+def stability(
+    rows: list[dict[str, object]], key: str, standard_only: bool = True
+) -> list[dict[str, object]]:
+    """Per-scene stability across repetitions (``EXPERIMENT_WORKFLOW.md`` §1).
+
+    ``standard_only`` defaults to True so the pass rate is computed over the 17
+    acceptance scenes and nothing else. Pass False to inspect the whole ledger,
+    including superseded and one-off runs.
+    """
 
     groups: dict[str, list[dict[str, object]]] = defaultdict(list)
     for row in rows:
+        if standard_only and key == "scene" and not is_standard(str(row[key])):
+            continue
         groups[str(row[key])].append(row)
 
     out = []
