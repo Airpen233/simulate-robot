@@ -122,6 +122,12 @@ def build(rows: list[dict[str, str]]) -> str:
             f"**{passed_scenes}/{len(table)} 个场景稳定通过。**"
         )
         lines.append("")
+        lines.append(
+            f"> 统计范围：**{len(table)} 个标准验收场景**（`STANDARD_SCENES`）。"
+            f"台账里另有历史调试、B/C 代旧参数、一次性验证的运行，"
+            f"**不计入通过率**——直接对数台账会得到不同的分母。"
+        )
+        lines.append("")
         lines.append("| 场景 | 次数 | 通过 | 判定 | 误差范围 (m) | 间隙范围 (mm) |")
         lines.append("| --- | --- | --- | --- | --- | --- |")
         for t in sorted(table, key=lambda x: (x["verdict"] != "STABLE_PASS", x["scene"])):
