@@ -1,0 +1,33 @@
+{
+  "scenario": "calibration",
+  "seed": "calib_bp090_d130",
+  "world": "calib_bp090_d130.wbt",
+  "arena_size_m": 2.0,
+  "start": [
+    -3.306546357697853e-17,
+    -0.18
+  ],
+  "target": [
+    -3.306546357697853e-17,
+    -0.18
+  ],
+  "path_found": true,
+  "calibration": {
+    "bearing_deg": 90.0,
+    "face_distance_m": 0.13,
+    "obstacle_size_m": 0.1,
+    "robot_pose": [
+      -3.306546357697853e-17,
+      -0.18,
+      0.0
+    ]
+  },
+  "obstacles": [
+    {
+      "name": "CALIBRATION_OBSTACLE",
+      "x": 0.0,
+      "y": 0.0,
+      "size": 0.1
+    }
+  ]
+}

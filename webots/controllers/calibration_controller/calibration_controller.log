@@ -1,0 +1,11 @@
+CALIBRATION_START
+SENSOR_BEARINGS ps0=-17.2 ps1=-45.9 ps2=-90.0 ps3=-151.5 ps4=+151.2 ps5=+90.0 ps6=+45.8 ps7=+17.1
+READING sensor=ps0 bearing=-17.2 value=66.59
+READING sensor=ps1 bearing=-45.9 value=68.08
+READING sensor=ps2 bearing=-90.0 value=66.49
+READING sensor=ps3 bearing=-151.5 value=66.63
+READING sensor=ps4 bearing=+151.2 value=66.47
+READING sensor=ps5 bearing=+90.0 value=67.60
+READING sensor=ps6 bearing=+45.8 value=67.96
+READING sensor=ps7 bearing=+17.1 value=67.72
+RESULT: done sensors=8 samples=20
