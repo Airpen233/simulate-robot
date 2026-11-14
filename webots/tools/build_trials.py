@@ -76,8 +76,8 @@ COLUMNS = [
     "scene",
     "run_index",
     "category",
-    "code_commit",
-    "config_hash",
+    "commit_at_run",
+    "config_at_run",
     "controller_result",
     "true_error_m",
     "true_success_3cm",
@@ -106,7 +106,15 @@ def git_commit() -> str:
 
 
 def config_hash() -> str:
-    """Fingerprint of AvoidConfig so parameter drift is visible in the ledger."""
+    """Fingerprint of the CURRENT AvoidConfig.
+
+    WARNING: this describes the working tree at generation time, not the
+    configuration the run used. Logs carry no config snapshot, so for archived
+    evidence the true configuration is unrecoverable. Do not put this value in
+    the ledger: doing so labels every historical row with today's settings and
+    looks authoritative while being wrong. See ``config_at_commit`` below for
+    the closest honest substitute.
+    """
 
     import hashlib
     import json
@@ -121,6 +129,58 @@ def config_hash() -> str:
     except Exception:  # noqa: BLE001
         return "unknown"
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:8]
+
+
+def config_at_commit(commit: str) -> str:
+    """Config hash that was in the tree at ``commit``, or empty if unavailable.
+
+    This is a property of the code, not of any particular run. It is still a
+    better answer than the live hash for old rows, because a row written before
+    the config changed really did use that older code — provided the row's
+    commit is known.
+    """
+
+    if not commit or commit == "unknown":
+        return ""
+    logic = "webots/controllers/robot_controller/logic/avoidance.py"
+    try:
+        source = git_show(commit, logic)
+    except RuntimeError:
+        return ""
+    if not source:
+        return ""
+    return _hash_config_source(source)
+
+
+def _hash_config_source(source: str) -> str:
+    """Hash the AvoidConfig defaults parsed out of a source blob."""
+
+    import hashlib
+    import re
+
+    block = re.search(r"class AvoidConfig:(.*?)(?=\n@dataclass|\nclass )", source, re.S)
+    if not block:
+        return ""
+    fields = re.findall(r"^\s{4}(\w+)\s*:\s*[^=]+=\s*(.+?)\s*$", block.group(1), re.M)
+    if not fields:
+        return ""
+    payload = ";".join(f"{name}={value}" for name, value in fields)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:8]
+
+
+def git_show(commit: str, path: str) -> str:
+    """Contents of ``path`` at ``commit``, empty when the file did not exist."""
+
+    result = subprocess.run(
+        ["git", "show", f"{commit}:{path}"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=30,
+    )
+    return result.stdout if result.returncode == 0 else ""
 
 
 def split_run(name: str) -> tuple[str, int]:
@@ -170,9 +230,34 @@ def category_of(base: str) -> str:
     return "other"
 
 
+def commit_at(when: str) -> str:
+    """Commit that was HEAD closest to ``when`` (an ISO-8601 UTC stamp).
+
+    This is the honest reconstruction of "what code produced this log": pick
+    the newest commit that already existed when the log was written. Returns an
+    empty string when the stamp is missing or predates the repository, which is
+    truthful — the log's provenance really is unknown then.
+
+    Caveat worth stating in the ledger: mtime is the file's last write, not
+    necessarily its creation, so a copied or touched file can claim a later
+    commit than it used. It is the best available signal, not proof.
+    """
+
+    if not when:
+        return ""
+    result = subprocess.run(
+        ["git", "rev-list", "-1", f"--before={when}", "HEAD"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=30,
+    )
+    return result.stdout.strip()[:7] if result.returncode == 0 else ""
+
+
 def collect() -> list[dict[str, object]]:
-    commit = git_commit()
-    cfg = config_hash()
     rows: list[dict[str, object]] = []
 
     runs = all_runs()
@@ -196,8 +281,8 @@ def collect() -> list[dict[str, object]]:
             "scene": scene,
             "run_index": run_index,
             "category": category_of(base),
-            "code_commit": commit,
-            "config_hash": cfg,
+            "commit_at_run": "",
+            "config_at_run": "",
             "controller_result": "",
             "true_error_m": "",
             "true_success_3cm": "",
@@ -214,6 +299,13 @@ def collect() -> list[dict[str, object]]:
             )
             if match:
                 row["controller_result"] = match.group("result")
+
+        # Reconstruct which code produced this log from its mtime, rather than
+        # stamping it with today's HEAD (which would be a quiet lie).
+        stamp = str(row["recorded_at"])
+        resolved = commit_at(stamp)
+        row["commit_at_run"] = resolved
+        row["config_at_run"] = config_at_commit(resolved) if resolved else ""
 
         if supervisor_log is None or not supervisor_log.exists():
             row["verdict"] = "NO_SUPERVISOR_LOG"
