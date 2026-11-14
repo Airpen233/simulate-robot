@@ -1,0 +1,41 @@
+{
+  "scenario": "random",
+  "seed": 3,
+  "world": "D:\\A.me\\Simulate robot\\webots\\worlds\\stage2_random_seed_3.wbt",
+  "arena_size_m": 2.2,
+  "start": [
+    0.0,
+    0.0
+  ],
+  "target": [
+    1.0,
+    0.0
+  ],
+  "path_found": true,
+  "obstacles": [
+    {
+      "name": "OBSTACLE1",
+      "x": 0.083,
+      "y": -0.243,
+      "size": 0.134
+    },
+    {
+      "name": "OBSTACLE2",
+      "x": 0.232,
+      "y": -0.801,
+      "size": 0.156
+    },
+    {
+      "name": "OBSTACLE3",
+      "x": 0.634,
+      "y": -0.452,
+      "size": 0.121
+    },
+    {
+      "name": "OBSTACLE4",
+      "x": 0.687,
+      "y": -0.097,
+      "size": 0.144
+    }
+  ]
+}

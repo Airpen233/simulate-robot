@@ -1,0 +1,50 @@
+MODE: avoid_v2 scene=D:\A.me\Simulate robot\webots\worlds\stage2_scenario_front.wbt seed=front target=(1.0,0.0)
+CONFIG: AvoidConfig(front_stop=120.0, side_block=200.0, side_margin=30.0, rear_clear=80.0, target_tolerance_m=0.02, brake_duration_s=0.1, turn_duration_s=0.9, move_duration_s=2.5, backup_duration_s=0.8, reassess_duration_s=0.1, heading_tolerance_rad=0.08726646259971647, max_avoid_attempts=8, max_backup_attempts=1, max_same_direction_attempts=2, stall_window_s=0.5, stall_min_progress_m=0.001)
+SENSOR_MAP: front=max(ps0,ps7) left=max(ps5,ps6) right=max(ps1,ps2) rear=max(ps3,ps4); rear has no centre sensor
+SCENE {"scenario": "front", "seed": 7, "world": "D:\\A.me\\Simulate robot\\webots\\worlds\\stage2_scenario_front.wbt", "arena_size_m": 2.2, "start": [0.0, 0.0], "target": [1.0, 0.0], "path_found": true, "obstacles": [{"name": "OBSTACLE1", "x": 0.45, "y": 0.0, "size": 0.16}]}
+DECISION t=0.03 state=NAVIGATE action=DRIVE reason='path clear' ps=(63.661986392768526, 69.72902373751984, 63.764686564764126, 68.31835944115898, 61.33395877391072, 66.76852741590989, 71.48557095442982, 69.98390175304829) front=70.0 left=71.5 right=69.7 rear=68.3 pose=(0.000,0.000,0.000) dist=1.000 err=0.000 attempts=0 turns=0 backups=0 recovers=0 last_failed=none
+TRACE t=0.03 state=NAVIGATE pose=(0.000,0.000,0.000) dist=1.000 err=0.000 front=70.0 left=71.5 right=69.7 rear=68.3
+TRACE t=0.54 state=NAVIGATE pose=(0.041,0.000,0.000) dist=0.959 err=0.000 front=67.3 left=70.8 right=69.3 rear=67.4
+TRACE t=1.06 state=NAVIGATE pose=(0.082,0.000,0.000) dist=0.918 err=0.000 front=62.7 left=71.2 right=68.8 rear=70.5
+TRACE t=1.57 state=NAVIGATE pose=(0.123,0.000,0.000) dist=0.877 err=0.000 front=70.2 left=72.8 right=64.7 rear=71.0
+TRACE t=2.08 state=NAVIGATE pose=(0.164,0.000,0.000) dist=0.836 err=0.000 front=70.0 left=69.4 right=70.1 rear=72.3
+TRACE t=2.59 state=NAVIGATE pose=(0.204,0.000,0.000) dist=0.796 err=0.000 front=71.1 left=69.0 right=67.5 rear=64.9
+TRACE t=3.10 state=NAVIGATE pose=(0.245,0.000,0.000) dist=0.755 err=0.000 front=67.2 left=74.1 right=64.5 rear=70.3
+TRACE t=3.62 state=NAVIGATE pose=(0.286,0.000,0.000) dist=0.714 err=0.000 front=68.0 left=67.8 right=70.3 rear=69.7
+DECISION t=3.90 state=BRAKE action=STOP reason='front=131.9 >= 120.0' ps=(123.288946094042, 67.918835751805, 67.19104362865066, 70.00391340674945, 66.33750493867463, 67.48268803516018, 70.04325021392702, 131.88357929576526) front=131.9 left=70.0 right=67.9 rear=70.0 pose=(0.309,0.000,0.000) dist=0.691 err=0.000 attempts=0 turns=0 backups=0 recovers=0 last_failed=none
+DECISION t=4.03 state=EVALUATE action=STOP reason='brake complete' ps=(118.72096103946221, 73.87064552731735, 61.43950004070192, 66.0063135152754, 67.45484931656928, 62.068768550195976, 58.37876417405093, 113.89690865333004) front=118.7 left=62.1 right=73.9 rear=67.5 pose=(0.309,0.000,0.000) dist=0.691 err=0.000 attempts=0 turns=0 backups=0 recovers=0 last_failed=none
+DECISION t=4.06 state=TURN_RIGHT action=SPIN_RIGHT reason='both sides clear; prefer target side RIGHT' ps=(127.56586338023385, 61.84787761359256, 66.0806387527418, 62.42954667021663, 69.6132775947583, 68.75419524840224, 65.13631347826757, 132.14046835891173) front=132.1 left=68.8 right=66.1 rear=69.6 pose=(0.309,0.000,0.000) dist=0.691 err=0.000 attempts=1 turns=1 backups=0 recovers=0 last_failed=none
+TRACE t=4.13 state=TURN_RIGHT pose=(0.309,-0.000,-0.129) dist=0.691 err=0.129 front=139.3 left=78.5 right=67.8 rear=67.8
+TRACE t=4.64 state=TURN_RIGHT pose=(0.309,0.000,-1.150) dist=0.691 err=1.150 front=69.7 left=138.2 right=67.3 rear=64.9
+DECISION t=4.99 state=MOVE_AROUND action=FORWARD_SLOW reason='turn complete' ps=(66.80424161514716, 68.808152338912, 64.82763607512078, 64.54431239002383, 65.69594066362241, 119.64742444773512, 68.10126404260082, 61.42465641848882) front=66.8 left=119.6 right=68.8 rear=65.7 pose=(0.309,-0.000,-1.853) dist=0.691 err=1.853 attempts=1 turns=1 backups=0 recovers=0 last_failed=none
+TRACE t=5.15 state=MOVE_AROUND pose=(0.307,-0.009,-1.855) dist=0.693 err=1.868 front=65.0 left=109.5 right=72.0 rear=71.5
+TRACE t=5.66 state=MOVE_AROUND pose=(0.298,-0.039,-1.855) dist=0.703 err=1.910 front=70.4 left=88.0 right=69.7 rear=69.1
+TRACE t=6.18 state=MOVE_AROUND pose=(0.289,-0.068,-1.853) dist=0.714 err=1.948 front=68.1 left=67.2 right=67.7 rear=70.1
+TRACE t=6.69 state=MOVE_AROUND pose=(0.281,-0.098,-1.855) dist=0.726 err=1.990 front=71.2 left=69.1 right=68.8 rear=65.9
+TRACE t=7.20 state=MOVE_AROUND pose=(0.272,-0.127,-1.855) dist=0.739 err=2.028 front=70.0 left=68.8 right=74.1 rear=66.9
+DECISION t=7.52 state=REASSESS action=STOP reason='controlled move complete' ps=(63.35658808830009, 68.98221058882905, 71.92895786795552, 68.34987018566532, 66.818906206906, 69.43982709727959, 64.41410104108616, 67.18075938322342) front=67.2 left=69.4 right=71.9 rear=68.3 pose=(0.267,-0.146,-1.855) dist=0.747 err=2.051 attempts=1 turns=1 backups=0 recovers=0 last_failed=none
+DECISION t=7.65 state=RECOVER action=SPIN_TO_TARGET reason='front clear; recover heading' ps=(68.07371330790501, 69.40140432069862, 71.13502216091173, 62.35743280854282, 71.96582677902246, 68.17458659621205, 64.56862914170176, 70.26186076340757) front=70.3 left=68.2 right=71.1 rear=72.0 pose=(0.267,-0.146,-1.855) dist=0.747 err=2.051 attempts=1 turns=1 backups=0 recovers=1 last_failed=none
+TRACE t=7.71 state=RECOVER pose=(0.267,-0.146,-1.727) dist=0.747 err=1.922 front=68.6 left=65.8 right=67.8 rear=67.1
+TRACE t=8.22 state=RECOVER pose=(0.267,-0.146,-0.703) dist=0.747 err=0.899 front=65.7 left=68.7 right=69.8 rear=65.6
+DECISION t=8.64 state=NAVIGATE action=DRIVE reason='heading recovered' ps=(69.72434969629474, 62.23253466457559, 65.69419088228788, 62.27024448699909, 64.91214066964606, 63.60946196765908, 67.44598576815648, 67.40348965526023) front=69.7 left=67.4 right=65.7 rear=64.9 pose=(0.267,-0.146,0.126) dist=0.747 err=0.070 attempts=1 turns=1 backups=0 recovers=1 last_failed=none
+TRACE t=8.74 state=NAVIGATE pose=(0.275,-0.145,0.126) dist=0.740 err=0.070 front=71.5 left=67.1 right=69.9 rear=68.5
+TRACE t=9.25 state=NAVIGATE pose=(0.315,-0.139,0.129) dist=0.699 err=0.072 front=69.9 left=66.6 right=68.0 rear=65.2
+TRACE t=9.76 state=NAVIGATE pose=(0.356,-0.134,0.129) dist=0.658 err=0.077 front=65.0 left=121.7 right=70.0 rear=67.5
+TRACE t=10.27 state=NAVIGATE pose=(0.396,-0.129,0.126) dist=0.617 err=0.084 front=69.4 left=291.4 right=68.3 rear=69.0
+TRACE t=10.78 state=NAVIGATE pose=(0.434,-0.123,0.191) dist=0.579 err=0.024 front=70.3 left=446.4 right=68.3 rear=63.0
+TRACE t=11.30 state=NAVIGATE pose=(0.474,-0.116,0.193) dist=0.538 err=0.024 front=69.5 left=1488.5 right=67.2 rear=67.9
+TRACE t=11.81 state=NAVIGATE pose=(0.515,-0.108,0.193) dist=0.497 err=0.026 front=70.9 left=1485.8 right=67.4 rear=69.5
+TRACE t=12.32 state=NAVIGATE pose=(0.555,-0.100,0.191) dist=0.456 err=0.030 front=71.3 left=69.5 right=67.5 rear=70.1
+TRACE t=12.83 state=NAVIGATE pose=(0.595,-0.092,0.193) dist=0.416 err=0.031 front=66.8 left=70.9 right=68.6 rear=66.6
+TRACE t=13.34 state=NAVIGATE pose=(0.635,-0.084,0.193) dist=0.375 err=0.034 front=71.8 left=67.3 right=72.6 rear=68.1
+TRACE t=13.86 state=NAVIGATE pose=(0.675,-0.077,0.191) dist=0.334 err=0.041 front=68.5 left=70.3 right=72.3 rear=68.5
+TRACE t=14.37 state=NAVIGATE pose=(0.715,-0.069,0.193) dist=0.293 err=0.044 front=69.7 left=69.4 right=67.2 rear=69.9
+TRACE t=14.88 state=NAVIGATE pose=(0.755,-0.061,0.193) dist=0.252 err=0.052 front=73.3 left=72.8 right=73.3 rear=72.3
+TRACE t=15.39 state=NAVIGATE pose=(0.796,-0.053,0.191) dist=0.211 err=0.064 front=68.8 left=67.3 right=65.7 rear=68.3
+TRACE t=15.90 state=NAVIGATE pose=(0.836,-0.045,0.193) dist=0.170 err=0.077 front=69.5 left=67.6 right=70.5 rear=73.3
+TRACE t=16.42 state=NAVIGATE pose=(0.873,-0.037,0.257) dist=0.132 err=0.025 front=67.0 left=69.9 right=73.5 rear=73.5
+TRACE t=16.93 state=NAVIGATE pose=(0.913,-0.026,0.255) dist=0.091 err=0.039 front=68.1 left=70.3 right=71.2 rear=68.4
+TRACE t=17.44 state=NAVIGATE pose=(0.952,-0.016,0.255) dist=0.050 err=0.071 front=66.5 left=72.3 right=71.4 rear=72.7
+DECISION t=17.86 state=REACHED action=STOP reason='within position tolerance' ps=(66.18693826174223, 69.7095369376031, 64.18265149355311, 66.56839934237802, 67.2942872079845, 66.06820661033454, 64.7026382804091, 71.39839643739897) front=71.4 left=66.1 right=69.7 rear=67.3 pose=(0.982,-0.007,0.319) dist=0.020 err=0.049 attempts=1 turns=1 backups=0 recovers=1 last_failed=none
+SUMMARY state=REACHED attempts=1 turns=1 backups=0 recovers=1 steps=558
+RESULT: reached target=(1.0,0.0) pose_est=(0.982,-0.007,0.319) distance=0.020 reason='within position tolerance'

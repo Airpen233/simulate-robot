@@ -1,0 +1,19 @@
+MOTION_PROBE_START
+GEOMETRY wheel_radius=0.02 wheel_base=0.05667 spin_rate_rad_s=1.4117 straight_rate_m_s=0.0600
+PHASE_BEGIN spin_45 kind=spin command=0.785398
+PHASE_END spin_45 predicted=0.785398 duration_s=0.5564
+PHASE_BEGIN spin_90 kind=spin command=1.570796
+PHASE_END spin_90 predicted=1.570796 duration_s=1.1127
+PHASE_BEGIN spin_180 kind=spin command=3.141593
+PHASE_END spin_180 predicted=3.141593 duration_s=2.2254
+PHASE_BEGIN spin_270 kind=spin command=4.712389
+PHASE_END spin_270 predicted=4.712389 duration_s=3.3381
+PHASE_BEGIN spin_n90 kind=spin command=-1.570796
+PHASE_END spin_n90 predicted=1.570796 duration_s=1.1127
+PHASE_BEGIN spin_n180 kind=spin command=-3.141593
+PHASE_END spin_n180 predicted=3.141593 duration_s=2.2254
+PHASE_BEGIN straight_050 kind=straight command=0.500000
+PHASE_END straight_050 predicted=0.500000 duration_s=8.3333
+PHASE_BEGIN straight_020 kind=straight command=0.200000
+PHASE_END straight_020 predicted=0.200000 duration_s=3.3333
+RESULT: done

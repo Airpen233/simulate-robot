@@ -183,13 +183,34 @@ def git_show(commit: str, path: str) -> str:
     return result.stdout if result.returncode == 0 else ""
 
 
+# ``<scene>_<tag>`` where the tag is a short configuration marker such as wb2.
+TAG_RE = re.compile(r"^(?P<scene>.+?)_(?P<tag>wb\d+)$")
+
+
 def split_run(name: str) -> tuple[str, int]:
-    """``fixed_front_r2`` -> (``fixed_front``, 2); ``fixed_front`` -> (..., 1)."""
+    """``fixed_front_r2`` -> (``fixed_front``, 2); ``fixed_front`` -> (..., 1).
+
+    Run names may carry a configuration tag before the repetition suffix
+    (``front_wb2_r2`` = scene ``front``, tag ``wb2``, repetition 2). The tag exists
+    so a new code configuration can be measured without overwriting the archived
+    evidence of the previous one; the parser must strip it, otherwise the tag
+    becomes part of the scene name and the scene silently drops out of the
+    standard set (that happened: 34 new runs produced zero counted scenes).
+    """
 
     match = REPEAT_RE.match(name)
     if match:
-        return match.group("base"), int(match.group("index"))
-    return name, 1
+        base = match.group("base")
+        index = int(match.group("index"))
+    else:
+        base = name
+        index = 1
+
+    tag = TAG_RE.match(base)
+    if tag:
+        base = tag.group("scene")
+
+    return base, index
 
 
 # The original fixed runs are named ``fixed_<scene>`` while the repeat runner
