@@ -2,6 +2,9 @@
 
 > 这是一个双人协作项目。本文件定义「怎么一起干活」。
 > 项目事实见 [`AGENTS.md`](AGENTS.md)，实验纪律见 [`EXPERIMENT_WORKFLOW.md`](EXPERIMENT_WORKFLOW.md)。
+>
+> **第一次参加、不熟悉 git 或 AI 助手？先看 [`docs/NEWCOMER_GUIDE.md`](docs/NEWCOMER_GUIDE.md)。**
+> 那份是从装软件开始写的，不需要任何基础；本文件假设你已经会 clone 和提 PR。
 
 ---
 

@@ -135,12 +135,31 @@ if ($JsonFile) {
 }
 
 $worldText = Get-Content -LiteralPath $world -Raw
-foreach ($controllerName in @("avoid_controller", "avoid_supervisor")) {
-    if ($worldText -match ('controller\s+"' + [regex]::Escape($controllerName) + '"')) {
-        "VALIDATE world_controller_$controllerName=OK"
-    } else {
-        "VALIDATE world_controller_$controllerName=MISSING"
-        $missing += ("world does not reference " + $controllerName)
+# The avoidance runner asserts that the world actually uses the avoidance
+# controllers; without that check a typo in the world name silently produces an
+# empty run. Measurement worlds (calibration, ToF probe) use their own single
+# controller instead, so they are accepted as an alternative — but they must
+# still name a controller we know, otherwise the same silent-empty-run failure
+# comes back.
+$measureController = $null
+foreach ($candidate in @("calibration_controller", "tof_probe")) {
+    if ($worldText -match ('controller\s+"' + [regex]::Escape($candidate) + '"')) {
+        $measureController = $candidate
+        break
+    }
+}
+$isCalibration = [bool]$measureController
+
+if ($isCalibration) {
+    "VALIDATE world_controller_$measureController=OK"
+} else {
+    foreach ($controllerName in @("avoid_controller", "avoid_supervisor")) {
+        if ($worldText -match ('controller\s+"' + [regex]::Escape($controllerName) + '"')) {
+            "VALIDATE world_controller_$controllerName=OK"
+        } else {
+            "VALIDATE world_controller_$controllerName=MISSING"
+            $missing += ("world does not reference " + $controllerName)
+        }
     }
 }
 
