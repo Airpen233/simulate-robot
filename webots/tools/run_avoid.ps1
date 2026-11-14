@@ -142,7 +142,7 @@ $worldText = Get-Content -LiteralPath $world -Raw
 # still name a controller we know, otherwise the same silent-empty-run failure
 # comes back.
 $measureController = $null
-foreach ($candidate in @("calibration_controller", "tof_probe")) {
+foreach ($candidate in @("calibration_controller", "tof_probe", "motion_probe")) {
     if ($worldText -match ('controller\s+"' + [regex]::Escape($candidate) + '"')) {
         $measureController = $candidate
         break

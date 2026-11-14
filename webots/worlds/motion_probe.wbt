@@ -1,0 +1,47 @@
+#VRML_SIM R2025a utf8
+# Motion accuracy probe. Open space, no obstacles: this world measures how far the
+# robot actually moves when told to move, so any collision would contaminate the
+# result.
+#
+# The arena is large (3x3 m) because the script drives 50 cm forward twice and
+# spins 90 + 180 - 90 degrees; a smaller arena would let the wall enter the path.
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
+WorldInfo {
+  basicTimeStep 32
+  info [
+    "e-puck motion accuracy probe: open space, scripted moves"
+  ]
+  title "e-puck motion accuracy"
+}
+
+Viewpoint {
+  orientation -0.577 0.577 0.577 2.094
+  position 2.0 2.0 2.0
+  follow "e-puck"
+}
+
+TexturedBackground {
+}
+
+TexturedBackgroundLight {
+}
+
+RectangleArena {
+  floorSize 3.0 3.0
+}
+
+DEF E_PUCK E-puck {
+  translation 0 0 0
+  controller "motion_probe"
+  customData "idle"
+}
+
+DEF MOTION_SUPERVISOR Robot {
+  controller "motion_supervisor"
+  supervisor TRUE
+}
